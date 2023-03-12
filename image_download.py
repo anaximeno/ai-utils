@@ -20,7 +20,7 @@ from icrawler.builtin import GoogleImageCrawler, BingImageCrawler, BaiduImageCra
 
 __all__ = ['dedupe_images','filter_images','image_download','filter_images']
 
-def image_download(search_text:str, n_images:int, label:str=None, engine:str='bing', image_dir='dataset', apikey=None):
+def image_download(search_text:str, n_images:int, label:str=None, engine:str='bing', image_dir='dataset', apikey=None, filter_non_jpg_imgs: bool = True):
     """
     Download images from bing, baidu or flickr
     usage: image_download(search_text:Path, n_images, label:str=None, engine:str='bing', image_dir='dataset', apikey=None)
@@ -42,7 +42,8 @@ def image_download(search_text:str, n_images:int, label:str=None, engine:str='bi
     else:
         engines = {'google':GoogleImageCrawler, 'bing':BingImageCrawler,'baidu':BaiduImageCrawler}
         start_crawler(engines[engine], path, search_text, n_images)
-    nons = filter_images(path)   # Remove non-jpg images
+    if filter_non_jpg_imgs:
+        nons = filter_images(path)   # Remove non-jpg images
     dups = dedupe_images(path)   # Remove duplicates
     print()
     print("**********************************************************")
