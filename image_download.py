@@ -49,7 +49,8 @@ def image_download(search_text:str, n_images:int, label:str=None, engine:str='bi
     print("**********************************************************")
     print(f"Path:       {path}")
     print(f"Removed:    {dups} duplicate images")
-    print(f"Removed:    {nons} non-jpeg images ")
+    if filter_non_jpg_imgs:
+        print(f"Removed:    {nons} non-jpeg images ")
     print(f"Downloaded: {len(list(path.iterdir()))} images")
     print("**********************************************************")
 
@@ -93,7 +94,7 @@ def hashfile(path:Path)->str:
             buf = f.read(blocksize)
     return hasher.hexdigest()
 
-def filter_images(image_dir:Path, img_type:str='JPEG')->int:
+def filter_images(image_dir:Path, img_type:str='JPEG')->int: # TODO: convert instead of filtering
     """Filter (keep) only pictures of a specified type. The default is jpeg"""
     nons = 0
     path = Path(image_dir)
